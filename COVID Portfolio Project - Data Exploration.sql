@@ -1,7 +1,7 @@
 SELECT *
 FROM PortfolioProject1.[dbo].[CovidDeaths$]
 WHERE continent IS NOT NULL
-Order by 3,4
+ORDER BY 3,4
 
 SELECT *
 FROM PortfolioProject1.[dbo].[CovidVaccinations$]
@@ -10,9 +10,9 @@ ORDER BY 3,4
 
 --- Select Data that we are going to be using
 
-Select continent, date, total_cases, new_cases, total_deaths, population
+SELECT continent, date, total_cases, new_cases, total_deaths, population
 FROM PortfolioProject1.[dbo].[CovidDeaths$]
-Order by 1,2
+ORDER BY 1,2
 
 -- Looking at Total Cases vs Total Deaths
 -- Shows Likelihood of Dying if you contract COVID in your country
@@ -81,10 +81,10 @@ ORDER BY 2,3
 -- USE CTE 
 
 With PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
-as 
+AS
 (
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(Convert(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.date) AS RollingPeopleVaccinated
+, SUM(Convert(int,vac.new_vaccinations)) OVER (PARTITION BY dea.Location Order by dea.location, dea.date) AS RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/Population)*100
 FROM PortfolioProject1.[dbo].[CovidDeaths$] dea
 JOIN PortfolioProject1.[dbo].[CovidVaccinations$] vac
